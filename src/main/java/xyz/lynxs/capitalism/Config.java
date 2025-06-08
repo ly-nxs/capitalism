@@ -18,6 +18,7 @@ public class Config {
 
     // Config Values
     public static final ModConfigSpec.ConfigValue<List<? extends String>> ITEM_PRICES;
+    public static final ModConfigSpec.ConfigValue<String> PLAYER_BALANCE_DISPLAY;
     public static final ModConfigSpec.IntValue WEB_PORT;
     public static final ModConfigSpec.BooleanValue ENABLE_WEB;
     public static final ModConfigSpec.ConfigValue<String> WEB_PATH;
@@ -36,13 +37,17 @@ public class Config {
         // Define all config entries
         ITEM_PRICES = BUILDER.comment(
                         "List of items to track with their prices in format 'modid:item=price'",
-                        "Example: minecraft:diamond=100.0, minecraft:gold_ingot=50.0")
+                        "Example: minecraft:diamond=100.0, minecraft:gold_ingot=50.0",
+                        "This is just the initial price")
                 .defineList("itemPrices", Arrays.asList(
                         "minecraft:diamond=100.0",
                         "minecraft:gold_ingot=50.0",
                         "minecraft:iron_ingot=25.0"
                 ), Config::validateItemEntry);
-
+        PLAYER_BALANCE_DISPLAY = BUILDER.comment(
+                "Where should players see their balance?",
+                "'tablist': display on tablist footer, 'chat': only through /balance command"
+        ).defineInList("balanceDisplay","tablist", Arrays.asList("tablist","chat"));
         WEB_PORT = BUILDER.comment(
                         "Port for the web interface",
                         "Default: 8080",
@@ -182,5 +187,8 @@ public class Config {
 
     public static int getThreads(){
         return THREADS.get();
+    }
+    public static String getPlayerDisplay(){
+        return PLAYER_BALANCE_DISPLAY.get();
     }
 }
