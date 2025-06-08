@@ -1,1 +1,1 @@
-# capitalism
+# Capitalism
